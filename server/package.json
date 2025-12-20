@@ -8,7 +8,7 @@
     "dev": "nodemon index.js",
     "seed": "node seeds/seed.js"
   },
-  "author": "",
+  "author": "Lakshya Agrawal",
   "license": "ISC",
   "description": "",
   "dependencies": {
