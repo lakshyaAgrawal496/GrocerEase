@@ -7,6 +7,7 @@ This document explains how admin authentication works in the BlinkIt Clone appli
 ## Current Implementation
 
 ### 1. **Login Page Location**
+
 - **File**: `client/src/pages/Login.jsx`
 - **Route**: `/login`
 - **Features**:
@@ -36,6 +37,7 @@ The system uses **role-based access control (RBAC)**:
 ### 3. **Admin Routes (Protected)**
 
 Admin-only routes in `client/src/route/index.jsx`:
+
 - `/dashboard/category` - Manage categories
 - `/dashboard/subcategory` - Manage subcategories
 - `/dashboard/upload-product` - Upload new products
@@ -46,6 +48,7 @@ All these routes are wrapped with `<AdminPermision>` component.
 ### 4. **Admin Menu Items**
 
 When logged in as admin, the following menu items appear in the user menu:
+
 - Category
 - Sub Category
 - Upload Product
@@ -62,6 +65,7 @@ A utility script has been created to easily convert any existing user to admin:
 **File**: `server/utils/createAdmin.js`
 
 **Usage**:
+
 ```bash
 # Navigate to project root
 cd server
@@ -71,6 +75,7 @@ node utils/createAdmin.js user@example.com
 ```
 
 **What it does**:
+
 - Connects to the database
 - Finds the user by email
 - Updates their role to "ADMIN"
@@ -92,6 +97,7 @@ db.users.updateOne(
 
 // Verify the update
 db.users.findOne({ email: "admin@example.com" })
+//passowrd : 1234
 ```
 
 ### Method 3: Using MongoDB Compass or Other GUI Tools
@@ -108,6 +114,7 @@ db.users.findOne({ email: "admin@example.com" })
 ### Step-by-Step Guide:
 
 1. **Create an Admin User** (if not already created):
+
    ```bash
    node server/utils/createAdmin.js admin@example.com
    ```
@@ -182,16 +189,21 @@ db.users.findOne({ email: "admin@example.com" })
 ## Troubleshooting
 
 ### Issue: "Do not have permission" message
+
 **Solution**: The user's role is not set to "ADMIN" in the database. Use the `createAdmin.js` script to fix this.
 
 ### Issue: Admin menu items not showing
-**Solution**: 
+
+**Solution**:
+
 1. Check if user role is "ADMIN" in Redux state
 2. Verify the user was logged in successfully
 3. Check browser console for errors
 
 ### Issue: Cannot access admin routes
-**Solution**: 
+
+**Solution**:
+
 1. Ensure you're logged in
 2. Verify your role is "ADMIN" in the database
 3. Clear browser cache and localStorage, then login again
@@ -210,4 +222,3 @@ Potential improvements you could add:
 
 **Last Updated**: Based on current codebase analysis
 **Version**: 1.0
-
