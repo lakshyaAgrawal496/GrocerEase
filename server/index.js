@@ -31,7 +31,7 @@ const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:5173', 'http
 
 const io = new Server(httpServer, {
     cors: {
-        origin: allowedOrigins,
+        origin: 'https://grocer-ease-tawny.vercel.app',
         credentials: true
     }
 })
