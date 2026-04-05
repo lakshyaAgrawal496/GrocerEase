@@ -1,0 +1,12 @@
+{
+  "name": "grocerease-test",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test-deploy": "node test-deployment.js",
+    "keep-alive": "node keep-alive.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

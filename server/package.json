@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "seed": "node seeds/seed.js"
+    "seed": "node seeds/seed.js",
+    "test-deploy": "node ../test-deployment.js",
+    "keep-alive": "node ../keep-alive.js"
   },
   "author": "Lakshya Agrawal",
   "license": "ISC",
@@ -25,6 +27,7 @@
     "mongoose": "^8.5.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
+    "node-fetch": "^3.3.2",
     "nodemon": "^3.1.4",
     "resend": "^3.5.0",
     "socket.io": "^4.8.1",

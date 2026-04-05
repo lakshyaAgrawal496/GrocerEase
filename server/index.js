@@ -23,6 +23,23 @@ import redis from "./config/redis.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
+// Validate critical environment variables
+const requiredEnvVars = [
+  "MONGODB_URI",
+  "JWT_ACCESS_SECRET",
+  "JWT_REFRESH_SECRET",
+];
+const missingEnvVars = requiredEnvVars.filter(
+  (varName) => !process.env[varName],
+);
+
+if (missingEnvVars.length > 0) {
+  console.error("❌ Missing required environment variables:", missingEnvVars);
+  process.exit(1);
+}
+
+console.log("✅ Environment variables validated");
+
 // ... (existing imports)
 
 const app = express();
@@ -163,6 +180,29 @@ app.get("/", (request, response) => {
   ///server to client
   response.json({
     message: "Server is running " + PORT,
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || "development",
+  });
+});
+
+app.get("/health", (request, response) => {
+  response.json({
+    status: "ok",
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+    memory: process.memoryUsage(),
+    version: process.version,
+    environment: process.env.NODE_ENV || "development",
+  });
+});
+
+// Keep-alive endpoint for Render free tier
+app.get("/keep-alive", (request, response) => {
+  response.json({
+    message: "Server is alive",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
   });
 });
 
@@ -180,8 +220,16 @@ app.use("/api/tracking", trackingRouter); // New Route
 app.use("/api/recipes", recipeRouter);
 app.use("/api/meal-plans", mealPlanRouter);
 
-connectDB().then(() => {
-  httpServer.listen(PORT, () => {
-    console.log("Server is running", PORT);
+connectDB()
+  .then(() => {
+    httpServer.listen(PORT, () => {
+      console.log("🚀 Server is running on port", PORT);
+      console.log("🌐 Environment:", process.env.NODE_ENV || "development");
+      console.log("📡 Frontend URL:", process.env.FRONTEND_URL || "not set");
+      console.log("🗄️  Database connected successfully");
+    });
+  })
+  .catch((error) => {
+    console.error("❌ Failed to connect to database:", error.message);
+    process.exit(1);
   });
-});
