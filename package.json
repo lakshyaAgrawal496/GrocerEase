@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "test-deploy": "node test-deployment.js",
-    "keep-alive": "node keep-alive.js"
+    "keep-alive": "node keep-alive.js",
+    "wait-deploy": "node wait-for-deploy.js"
   },
   "dependencies": {
     "node-fetch": "^3.3.2"
